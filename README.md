@@ -1,7 +1,7 @@
 # API consumers for Laravel offering Eloquent style syntax
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/black-bits/laravel-api-consumer.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-api-consumer)
-[![Total Downloads](https://img.shields.io/packagist/dt/black-bits/laravel-api-consumer.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-api-consumer)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/perfect-space/laravel-api-consumer.svg?style=flat-square)](https://packagist.org/packages/perfect-space/laravel-api-consumer)
+[![Total Downloads](https://img.shields.io/packagist/dt/perfect-space/laravel-api-consumer.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-api-consumer)
 
 This Laravel package lets you generate API Consumers with Endpoints and Shapes which usage is similar to Laravel's Eloquent models.
 
@@ -19,7 +19,7 @@ _This package is currently in development and is not production ready._
 You can install the package via composer
 
 ```bash
-composer require black-bits/laravel-api-consumer
+composer require perfect-space/laravel-api-consumer
 ```
 
 Next you can publish the config
