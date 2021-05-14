@@ -20,6 +20,7 @@ abstract class Endpoint
     protected $method;
 
     protected $shouldCache = false;
+    protected $shouldUseBasicAuth = false;
     protected $cacheDurationInMinutes = 5;
 
 
@@ -77,6 +78,10 @@ abstract class Endpoint
         }
 
         if (strtolower($this->method) == "post") {
+            if ($this->shouldUseBasicAuth) {
+                return Zttp::withBasicAuth($this->withBasicAuth['username'], $this->withBasicAuth['username'])
+                    ->withHeaders($this->headers)->post($this->uri(), $this->options)->body();
+            }
             return Zttp::withHeaders($this->headers)->post($this->uri(), $this->options)->body();
         }
 
