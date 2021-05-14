@@ -16,6 +16,7 @@ abstract class Endpoint
 
     protected $headers = [];
     protected $options = [];
+    protected $basicAuth = ['username' => '', 'password' => ''];
     protected $path;
     protected $method;
 
@@ -79,7 +80,8 @@ abstract class Endpoint
 
         if (strtolower($this->method) == "post") {
             if ($this->shouldUseBasicAuth) {
-                return Zttp::withHeaders($this->headers)->post($this->uri(), $this->options)->body();
+                return Zttp::withBasicAuth($this->basicAuth['username'], $this->basicAuth['password'])
+                    ->withHeaders($this->headers)->post($this->uri(), $this->options)->body();
             }
             return Zttp::withHeaders($this->headers)->post($this->uri(), $this->options)->body();
         }
