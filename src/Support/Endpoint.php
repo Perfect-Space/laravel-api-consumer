@@ -22,6 +22,7 @@ abstract class Endpoint
 
     protected $shouldCache = false;
     protected $shouldUseBasicAuth = false;
+    protected $shouldUseMultipartFormData = false;
     protected $cacheDurationInMinutes = 5;
 
 
@@ -79,11 +80,21 @@ abstract class Endpoint
         }
 
         if (strtolower($this->method) == "post") {
+            $zttp = Zttp::withHeaders($this->headers);
+
             if ($this->shouldUseBasicAuth) {
-                return Zttp::withBasicAuth($this->basicAuth['username'], $this->basicAuth['password'])
-                    ->withHeaders($this->headers)->post($this->uri(), $this->options)->body();
+                $zttp = $zttp->withBasicAuth($this->basicAuth['username'], $this->basicAuth['password']);
             }
-            return Zttp::withHeaders($this->headers)->post($this->uri(), $this->options)->body();
+
+            if ($this->shouldUseMultipartFormData) {
+                $multipart = [];
+                foreach ($this->options as $key => $value) {
+                    $multipart[] = ['name' => $key, 'contents' => $value];
+                }
+                $this->options = $multipart;
+            }
+
+            return $zttp->post($this->uri(), $this->options)->body();
         }
 
         // TODO: other Methods
