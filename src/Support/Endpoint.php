@@ -92,6 +92,7 @@ abstract class Endpoint
                     $multipart[] = ['name' => $key, 'contents' => $value];
                 }
                 $this->options = $multipart;
+                $zttp = $zttp->asMultipart();
             }
 
             return $zttp->post($this->uri(), $this->options)->body();
