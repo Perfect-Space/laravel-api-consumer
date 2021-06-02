@@ -70,27 +70,29 @@ abstract class Endpoint
      */
     private function request()
     {
+        $zttp = Zttp::withHeaders($this->headers);
+
+        if ($this->shouldUseBasicAuth) {
+            $zttp = $zttp->withBasicAuth($this->basicAuth['username'], $this->basicAuth['password']);
+        }
+
         if (strtolower($this->method) == "get") {
             if ($this->shouldCache) {
-                return Cache::remember($this->getCacheKey(), $this->cacheDurationInMinutes, function () {
-                    return Zttp::withHeaders($this->headers)->get($this->uri(), $this->options)->body();
+                return Cache::remember($this->getCacheKey(), $this->cacheDurationInMinutes, function () use ($zttp) {
+                    return $zttp->get($this->uri(), $this->options)->body();
                 });
             }
-            return Zttp::withHeaders($this->headers)->get($this->uri(), $this->options)->body();
+            return $zttp->get($this->uri(), $this->options)->body();
         }
 
         if (strtolower($this->method) == "post") {
-            $zttp = Zttp::withHeaders($this->headers);
-
-            if ($this->shouldUseBasicAuth) {
-                $zttp = $zttp->withBasicAuth($this->basicAuth['username'], $this->basicAuth['password']);
-            }
-
             if ($this->shouldUseMultipartFormData) {
                 $multipart = [];
+
                 foreach ($this->options as $key => $value) {
                     $multipart[] = ['name' => $key, 'contents' => $value];
                 }
+
                 $this->options = $multipart;
                 $zttp = $zttp->asMultipart();
             }
