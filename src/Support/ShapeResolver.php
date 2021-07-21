@@ -2,6 +2,7 @@
 
 namespace BlackBits\ApiConsumer\Support;
 
+use Illuminate\Support\Facades\Log;
 use BlackBits\ApiConsumer\Contracts\ShapeContract;
 
 class ShapeResolver
@@ -20,13 +21,16 @@ class ShapeResolver
      */
     public function resolve(string $results)
     {
-        if (! $this->isJSON($results))
+        if (! $this->isJSON($results)) {
+            Log::debug($results);
             throw new \Exception("Api result data is not a valid json!");
+        }
 
         $results = json_decode($results);
 
-        if (! is_array($results))
+        if (! is_array($results)) {
             $results = [$results];
+        }
 
         $collection = collect($results)->map(function ($result) {
             return $this->shape::create($result);
