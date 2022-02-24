@@ -38,7 +38,7 @@
     "require": {
         "php": "^8.0",
         "perfect-space/zttp": "dev-master",
-        "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|6.*|7.*|8.*"
+        "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|6.*|7.*|8.*|9.*"
     },
     "require-dev": {
         "larapack/dd": "^1.1",
