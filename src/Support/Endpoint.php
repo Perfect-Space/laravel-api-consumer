@@ -23,6 +23,7 @@ abstract class Endpoint
     protected $shouldCache = false;
     protected $shouldUseBasicAuth = false;
     protected $shouldUseMultipartFormData = false;
+    protected $shouldUseFormParams = false;
     protected $cacheDurationInMinutes = 5;
 
 
@@ -87,6 +88,7 @@ abstract class Endpoint
 
         if (strtolower($this->method) == "post") {
             if ($this->shouldUseMultipartFormData) {
+
                 $multipart = [];
 
                 foreach ($this->options as $key => $value) {
@@ -95,6 +97,10 @@ abstract class Endpoint
 
                 $this->options = $multipart;
                 $zttp = $zttp->asMultipart();
+
+            } elseif ($this->shouldUseFormParams) {
+
+                $zttp = $zttp->asFormParams();
             }
 
             return $zttp->post($this->uri(), $this->options)->body();
